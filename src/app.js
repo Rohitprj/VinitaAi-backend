@@ -10,11 +10,11 @@ app.use(
       "http://localhost:3001",
       "http://localhost:3002",
       "https://d5cnvsgq-3001.inc1.devtunnels.ms",
-      "https://chat-bot-umber-rho.vercel.app/",
-      "https://vinita-ai.vercel.app/",
+      "https://chat-bot-umber-rho.vercel.app",
+      "https://vinita-ai.vercel.app",
     ],
     credentials: true,
-    expoexposedHeaders: ["x-guest-id"],
+    exposedHeaders: ["x-guest-id"],
   })
 );
 
@@ -23,6 +23,11 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.set("view engine", "ejs");
+
+app.use((req, res, next) => {
+  console.log("Request Origin:", req.headers.origin);
+  next();
+});
 
 // Router imports
 
