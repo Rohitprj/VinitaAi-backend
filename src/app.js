@@ -7,7 +7,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:3001",
+      "http://localhost:3000",
       "http://localhost:3002",
       "https://d5cnvsgq-3001.inc1.devtunnels.ms",
       "https://chat-bot-umber-rho.vercel.app",
