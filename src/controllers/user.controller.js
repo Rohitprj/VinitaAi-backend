@@ -128,6 +128,26 @@ const login = async (req, res) => {
         .json({ message: "Please verify your email first" });
     }
 
+    // Check if the user already has a valid token
+    if (user.authToken) {
+      return res.json({
+        success: true,
+        message: "Login successful",
+        token: user.authToken, // Return the existing token
+        user: {
+          id: user._id,
+          name: user.username,
+          email: user.email,
+          phone: user.phone,
+          booksRead: user.booksRead,
+          city: user.city,
+          country: user.country,
+          gender: user.gender,
+          age: user.age,
+        },
+      });
+    }
+
     if (!user.password) {
       const hashed = await bcrypt.hash(password, 10);
       user.password = hashed;
@@ -192,4 +212,3 @@ const logout = async (req, res) => {
 };
 
 export { register, verifyEmail, login, logout };
-
