@@ -12,6 +12,7 @@ app.use(
       "https://d5cnvsgq-3001.inc1.devtunnels.ms",
       "https://chat-bot-umber-rho.vercel.app",
       "https://vinita-ai.vercel.app",
+      "https://www.askvinitasri.com",
     ],
     credentials: true,
     exposedHeaders: ["x-guest-id"],
