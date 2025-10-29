@@ -1,15 +1,16 @@
 import axios from "axios";
 
-// const PYTHON_API_URL = process.env.PYTHON_API_URL;
-const PYTHON_API_URL = "http://localhost:8000";
+const PYTHON_API_URL = process.env.PYTHON_API_URL;
+console.log("PYTHON_API_URL", PYTHON_API_URL);
+// const PYTHON_API_URL = "http://localhost:8000";
 
 const pythonApiService = {
-  queryPythonApi: async (question, vectorStore = "faiss") => {
+  queryPythonApi: async (question, vectorStore = "TEST-MANUAL-123") => {
     try {
       console.log("Started");
       const response = await axios.post(
-        `${PYTHON_API_URL}/api/query?vector_store=${vectorStore}`,
-        { question }
+        `${PYTHON_API_URL}/api/query?session_id=${vectorStore}`,
+        { question, session_id: "TEST-MANUAL-123" }
       );
       console.log("Worked", response.data);
       return response.data;
