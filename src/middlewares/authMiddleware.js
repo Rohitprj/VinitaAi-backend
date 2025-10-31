@@ -22,7 +22,7 @@ export const requireAuth = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid token (no user)" });
     if (!user.authToken || user.authToken !== token) {
       return res
-        .status(200)
+        .status(401)
         .json({ message: "Token is not active (please login)" });
     }
 

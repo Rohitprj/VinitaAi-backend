@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import { User } from "../models/user.model.js";
 import { sendEmail } from "../utils/nodemailer.js";
 
@@ -102,7 +101,7 @@ const verifyEmail = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Email verified. Now set your password via app." });
+      .json({ message: "Email verified. Now your login via app." });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error" });
@@ -111,10 +110,10 @@ const verifyEmail = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password required" });
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
     }
 
     const user = await User.findOne({ email }).select("+authToken");
@@ -148,16 +147,16 @@ const login = async (req, res) => {
       });
     }
 
-    if (!user.password) {
-      const hashed = await bcrypt.hash(password, 10);
-      user.password = hashed;
-    } else {
-      const isMatch = await bcrypt.compare(password, user.password);
-      console.log("Compare Hashed", isMatch);
-      if (!isMatch) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-    }
+    // if (!user.password) {
+    //   const hashed = await bcrypt.hash(password, 10);
+    //   user.password = hashed;
+    // } else {
+    //   const isMatch = await bcrypt.compare(password, user.password);
+    //   console.log("Compare Hashed", isMatch);
+    //   if (!isMatch) {
+    //     return res.status(401).json({ message: "Invalid credentials" });
+    //   }
+    // }
 
     const token = jwt.sign(
       { userId: user._id },
