@@ -38,8 +38,19 @@ const register = async (req, res) => {
         subject: "Verify your email to visit Vinita AI chatbot",
         html: `<p>Hi ${existingUserByEmail.username},</p>
                <p>Click the link to verify your email and continue:</p>
-               <a href="${verifyLink}">${verifyLink}</a>
-               <p>This link expires in 24 hours.</p>`,
+               <table border="0" cellpadding="0" cellspacing="0">
+               <tr>
+               <td align="center" bgcolor="#007bff" style="border-radius: 5px;">
+                   <a href="${verifyLink}" target="_self" style="font-size: 16px;
+                    font-family: Helvetica, Arial, sans-serif; color: #ffffff; 
+                    text-decoration: none; border-radius: 5px; padding: 10px 20px; 
+                    border: 1px solid #007bff; display: inline-block;">
+                       VERIFY MY EMAIL
+                   </a>
+              </td>
+              </tr>
+              </table>
+              <p style="margin-top: 15px;">This link expires in 24 hours.</p>`,
       });
 
       return res.status(200).json({
@@ -71,9 +82,20 @@ const register = async (req, res) => {
       to: email,
       subject: "Verify your email to visit Vinita AI chatbot",
       html: `<p>Hi ${username},</p>
-             <p>Click the link to verify your email and continue:</p>
-             <a href="${verifyLink}">${verifyLink}</a>
-             <p>This link expires in 24 hours.</p>`,
+             <p>Click that button to verify your email and continue:-</p>
+             <table border="0" cellpadding="0" cellspacing="0">
+           <tr>
+               <td align="center" bgcolor="#007bff" style="border-radius: 5px;">
+                   <a href="${verifyLink}" target="_self" style="font-size: 16px;
+                    font-family: Helvetica, Arial, sans-serif; color: #ffffff; 
+                    text-decoration: none; border-radius: 5px; padding: 10px 20px; 
+                    border: 1px solid #007bff; display: inline-block;">
+                       VERIFY MY EMAIL
+                   </a>
+               </td>
+           </tr>
+       </table>
+       <p style="margin-top: 15px;">This link expires in 24 hours.</p>`,
     });
 
     return res
