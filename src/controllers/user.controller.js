@@ -4,10 +4,10 @@ import { sendEmail } from "../utils/nodemailer.js";
 
 const register = async (req, res) => {
   try {
-    const { username, email, phone, booksRead, city, country, gender, age } =
+    const { username, email, phone, booksRead, city, country, gender, DOB } =
       req.body;
 
-    if (!username || !email || !phone || !gender || !age) {
+    if (!username || !email || !phone || !gender || !DOB) {
       return res.status(400).json({ message: "These fields are required" });
     }
 
@@ -67,7 +67,7 @@ const register = async (req, res) => {
       city,
       country,
       gender,
-      age,
+      DOB,
     });
 
     const verifyToken = jwt.sign(
@@ -164,7 +164,7 @@ const login = async (req, res) => {
           city: user.city,
           country: user.country,
           gender: user.gender,
-          age: user.age,
+          DOB: user.DOB,
         },
       });
     }
@@ -202,7 +202,7 @@ const login = async (req, res) => {
         city: user.city,
         country: user.country,
         gender: user.gender,
-        age: user.age,
+        DOB: user.DOB,
       },
     });
   } catch (error) {

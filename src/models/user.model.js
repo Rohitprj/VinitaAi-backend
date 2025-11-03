@@ -37,8 +37,8 @@ const userSchema = new Schema(
       enum: ["Male", "Female", "Other", "पुरुष", "महिला", "अन्य"],
       required: true,
     },
-    age: {
-      type: Number,
+    DOB: {
+      type: String,
       required: true,
     },
     verified: {
