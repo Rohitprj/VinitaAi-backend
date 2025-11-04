@@ -11,6 +11,7 @@ app.use(
       "http://localhost:3000",
       "https://chat-bot-umber-rho.vercel.app",
       "https://www.askvinitasri.com",
+      "https://admin.askvinitasri.com",
     ],
     credentials: true,
     exposedHeaders: ["x-guest-id"],
