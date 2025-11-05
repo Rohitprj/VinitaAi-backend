@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { User } from "../models/user.model.js";
 import { sendEmail } from "../utils/nodemailer.js";
 
@@ -68,6 +69,7 @@ const register = async (req, res) => {
       country,
       gender,
       DOB,
+      role: "user",
     });
 
     const verifyToken = jwt.sign(
@@ -132,21 +134,44 @@ const verifyEmail = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, password } = req.body;
 
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await User.findOne({ email }).select("+authToken");
+    const user = await User.findOne({ email }).select(
+      "+authToken +password +role"
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (!user.verified) {
-      return res
-        .status(403)
-        .json({ message: "Please verify your email first" });
+    if (user.role === "admin") {
+      if (!password) {
+        return res
+          .status(400)
+          .json({ message: "Password required for admin login" });
+      }
+      if (!user.password) {
+        // First time admin login → Save the password
+        const hashed = await bcrypt.hash(password, 10);
+        user.password = hashed;
+        await user.save();
+        console.log("✅ Admin password saved for the first time");
+      } else {
+        // Admin already has password → Compare it
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return res.status(401).json({ message: "Invalid credentials" });
+        }
+      }
+    } else {
+      if (!user.verified) {
+        return res
+          .status(403)
+          .json({ message: "Please verify your email first" });
+      }
     }
 
     // Check if the user already has a valid token
@@ -169,7 +194,7 @@ const login = async (req, res) => {
       });
     }
 
-    // if (!user.password) {
+    // if (user.role === "admin" && !user.password) {
     //   const hashed = await bcrypt.hash(password, 10);
     //   user.password = hashed;
     // } else {
@@ -234,24 +259,24 @@ const logout = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-authToken');
+    const users = await User.find({}).select("-authToken");
     return res.status(200).json({
       success: true,
       users,
-      count: users.length
+      count: users.length,
     });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 const getUserById = async (req, res) => {
   try {
     const { userId } = req.params;
     // console.log("userId", userId);
 
-    const user = await User.findById(userId).select('-authToken');
+    const user = await User.findById(userId).select("-authToken");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -259,12 +284,11 @@ const getUserById = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      user
+      user,
     });
-
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
   }
-}
+};
 export { register, verifyEmail, login, logout, getAllUsers, getUserById };
