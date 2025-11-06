@@ -18,12 +18,17 @@ export const requireAuth = async (req, res, next) => {
     }
 
     const user = await User.findById(decoded.userId).select("+authToken");
+    // console.log("User Data", user);
     if (!user)
       return res.status(401).json({ message: "Invalid token (no user)" });
     if (!user.authToken || user.authToken !== token) {
       return res
         .status(401)
         .json({ message: "Token is not active (please login)" });
+    }
+
+    if (user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied: Admins only" });
     }
 
     req.user = { id: user._id, email: user.email };
