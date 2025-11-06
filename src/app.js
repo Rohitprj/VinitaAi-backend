@@ -49,6 +49,7 @@ app.use("/", (req, res) => {
   res.send({
     success: true,
     message: "Server is running",
+    timestamp: new Date().toISOString(),
   });
 });
 
