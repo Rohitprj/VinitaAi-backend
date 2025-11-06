@@ -38,10 +38,12 @@ app.use((req, res, next) => {
 
 import userRoutes from "./routes/user.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 // Routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 app.use("/", (req, res) => {
   res.send({
