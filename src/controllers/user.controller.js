@@ -190,6 +190,7 @@ const login = async (req, res) => {
           country: user.country,
           gender: user.gender,
           DOB: user.DOB,
+          role: user.role,
         },
       });
     }
@@ -228,6 +229,7 @@ const login = async (req, res) => {
         country: user.country,
         gender: user.gender,
         DOB: user.DOB,
+        role: user.role,
       },
     });
   } catch (error) {
