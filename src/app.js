@@ -51,6 +51,7 @@ app.use("/", (req, res) => {
   res.send({
     success: true,
     message: "Server is running",
+    lastUpdate: "11-11-2025",
     timestamp: new Date().toISOString(),
   });
 });
