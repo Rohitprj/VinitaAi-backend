@@ -1,3 +1,4 @@
+import { UserClicks } from "../models/clicks.model.js";
 import { User } from "../models/user.model.js";
 
 const getAllUsers = async (req, res) => {
@@ -17,7 +18,6 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { userId } = req.params;
-    // console.log("userId", userId);
 
     const user = await User.findById(userId).select("-authToken");
 
@@ -34,4 +34,29 @@ const getUserById = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-export { getAllUsers, getUserById };
+
+const getUserClicks = async (req, res) => {
+  try {
+    const userClicks = await UserClicks.find().populate(
+      "userId",
+      "username email"
+    );
+    console.log("user clicks", userClicks);
+    return res.status(200).json({
+      success: true,
+      data: userClicks,
+    });
+  } catch (error) {
+    console.log("user click", error);
+    return res.status(500).json({
+      message: "Users data gets successfully",
+    });
+  }
+  // try {
+  //   const clicks = await UserClicks.find().populate("userId", "username email");
+  //   res.status(200).json(clicks);
+  // } catch (err) {
+  //   res.status(500).json({ message: err.message });
+  // }
+};
+export { getAllUsers, getUserById, getUserClicks };
