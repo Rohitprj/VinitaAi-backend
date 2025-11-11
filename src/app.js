@@ -39,11 +39,13 @@ app.use((req, res, next) => {
 import userRoutes from "./routes/user.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import clicksRoute from "./routes/clicks.routes.js";
 
 // Routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/clicks", clicksRoute);
 
 app.use("/", (req, res) => {
   res.send({
