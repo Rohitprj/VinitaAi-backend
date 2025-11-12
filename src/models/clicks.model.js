@@ -7,10 +7,10 @@ const userClicksSchema = new Schema({
     required: true,
   },
   clicks: {
-    shop: { type: Number, default: 0 },
-    books: { type: Number, default: 0 },
-    follow: { type: Number, default: 0 },
-    meet: { type: Number, default: 0 },
+    Shop: { type: Number, default: 0 },
+    Books: { type: Number, default: 0 },
+    Follow: { type: Number, default: 0 },
+    Meet: { type: Number, default: 0 },
   },
 });
 

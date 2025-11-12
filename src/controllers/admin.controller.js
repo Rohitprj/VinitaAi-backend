@@ -41,7 +41,7 @@ const getUserClicks = async (req, res) => {
       "userId",
       "username email"
     );
-    console.log("user clicks", userClicks);
+    // console.log("user clicks", userClicks);
     return res.status(200).json({
       success: true,
       data: userClicks,
