@@ -1,3 +1,4 @@
+import { ChatHistory } from "../models/chat.model.js";
 import { UserClicks } from "../models/clicks.model.js";
 import { User } from "../models/user.model.js";
 
@@ -52,11 +53,18 @@ const getUserClicks = async (req, res) => {
       message: "Users data gets successfully",
     });
   }
-  // try {
-  //   const clicks = await UserClicks.find().populate("userId", "username email");
-  //   res.status(200).json(clicks);
-  // } catch (err) {
-  //   res.status(500).json({ message: err.message });
-  // }
 };
-export { getAllUsers, getUserById, getUserClicks };
+
+const getUserQuestions = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userQuestions = await ChatHistory.find({ userId });
+    return res.status(200).json({
+      success: true,
+      data: userQuestions[0].chats.map((item) => item.question),
+    });
+  } catch (error) {
+    console.log("UserQuestions", error);
+  }
+};
+export { getAllUsers, getUserById, getUserClicks, getUserQuestions };
